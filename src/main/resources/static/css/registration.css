@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+
+body {
+    background-color: #eee;
+}
+
+*[role="form"] {
+    max-width: 530px;
+    padding: 15px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 0.3em;
+}
+
+*[role="alert"] {
+    max-width: 530px;
+}
+
+*[role="form"] h2 {
+    margin-left: 1em;
+    margin-bottom: 1em;
+}

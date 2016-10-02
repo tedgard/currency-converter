@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+	<meta charset="UTF-8" />
+	<title>Currency Converter | Welcome</title>
+	<link href="https://cdn.jsdelivr.net/bootstrap/3.3.7/js/bootstrap.min.js" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+	<script src="https://cdn.jsdelivr.net/jquery/2.2.4/jquery.min.js" th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
+	<link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" media="screen"/>
+</head>
+
+<body>
+
+<div class="container">
+	<h1> Hi <span th:text="${user}"></span></h1>
+	<hr/>
+</div>
+
+</body>
+</html>
