@@ -11,5 +11,5 @@ import cucumber.api.junit.Cucumber;
 	dryRun = false,
 	features = "src/main/resources/features/registration.feature"
 )
-public class RegistrationTest {
+public class RegistrationControllerTest {
 }

@@ -8,7 +8,9 @@ Feature: Registration
 		New users should be redirected to the home page once 
 		the registration has succeeded
 		
-		Given I have chosen to register with valid input
+		Given I have chosen to register with valid input:
+		| fullName | email				| password	| dateOfBirth | address 		| zipCode	| city 		| country |
+		| Edgard   | edgard@ndouna.com  | test1234	| 1987-09-01  | 827 London St	| 80000		| Amiens	| France  |
 		When I submit the form 
 		Then I should be redirected to the home page
 		
@@ -16,7 +18,9 @@ Feature: Registration
 	
 		Someone tries to provide an invalid email address
 		
-		Given I have chosen to register with an invalid email "test@test"
+		Given I have chosen to register with an invalid email:
+		| fullName | email				| password	| dateOfBirth | address 		| zipCode	| city 		| country |
+		| John Doe | test@test  		| test1234	| 1987-09-01  | 123 John Doe St	| 80000		| Amiens	| France  |
 		When I submit the form 
 		Then I should be told that the email is incorrect
 		
@@ -24,7 +28,9 @@ Feature: Registration
 	
 		Someone tries to use an email address that already exists
 		
-		Given I have chosen to register email address that has already registered "edgard.ndouna@gmail.com"
+		Given I have chosen to register email address that has already registered:
+		| fullName   | email				 | password	| dateOfBirth | address 		| zipCode	| city 		| country |
+		| Mary Smith | john.doe@example.com  | test3211	| 1988-02-02  | 123 John Doe St	| 80000		| Amiens	| France  |
 		When I submit the form
 		Then I should be told that the email already exists
 		
@@ -32,7 +38,9 @@ Feature: Registration
 	
 		The user has to enter a reasonable date of birth namely in the past
 		
-		Given I have chosen to register with a date of birth in the future "2020-01-01"
+		Given I have chosen to register with a date of birth in the future:
+		| fullName | email				   | password	| dateOfBirth | address 		| zipCode	| city 		| country |
+		| John Doe | john.doe@example.com  | test1234	| 2020-01-01  | 123 John Doe St	| 80000		| Amiens	| France  |
 		When I submit the form 
-		Then I should be told that the date of birth is incorrect
+		Then I should be told that the date of birth should be in the past
 		

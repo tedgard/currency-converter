@@ -11,5 +11,5 @@ import cucumber.api.junit.Cucumber;
 	dryRun = false,
 	features = "src/main/resources/features/currency-rates-converter.feature"
 )
-public class CurrencyRatesConverterTest {
+public class CurrencyRatesConverterControllerTest {
 }

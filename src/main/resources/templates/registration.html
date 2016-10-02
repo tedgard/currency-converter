@@ -14,6 +14,9 @@
 <div class="container">
 
 	  <br/>
+	  <div th:if="${success != null}"> <div class="alert alert-success" role="alert" th:text="${success}"></div></div>
+	  <div th:if="${failed != null}"> <div class="alert alert-danger" role="alert" th:text="${failed}"></div></div>
+	  
       <form class="form-horizontal" role="form" th:object="${user}" method="post" th:action="@{/saveUser}">
      	  <h2>Registration Form</h2>     
           <div class="form-group">
