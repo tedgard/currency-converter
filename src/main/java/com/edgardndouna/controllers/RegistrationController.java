@@ -1,7 +1,7 @@
 package com.edgardndouna.controllers;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,10 +50,10 @@ public class RegistrationController {
 		}
 		
 		//Checking the date format provided
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Date dateOfBirth = null;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate dateOfBirth = null;
         try {
-            dateOfBirth = formatter.parse(user.getDateOfBirth());
+            dateOfBirth = LocalDate.parse(user.getDateOfBirth(), formatter);
         } catch (Exception e) {
         	model.addAttribute("failed", "Invalid date format provided for date of birth");
         	model.addAttribute("user", user);

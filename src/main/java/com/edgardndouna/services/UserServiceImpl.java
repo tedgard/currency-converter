@@ -1,7 +1,7 @@
 package com.edgardndouna.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.validator.EmailValidator;
@@ -71,9 +71,8 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public boolean isReasonableDateOfBirth(Date dateOrBirth){
-		Date now = new Date();
-		if(now.after(dateOrBirth)) return true;		
+	public boolean isReasonableDateOfBirth(LocalDate dateOrBirth){
+		if(LocalDate.now().isAfter(dateOrBirth)) return true;		
 		return false;
 	}
 	
@@ -94,6 +93,9 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		users.add(user);
+		
+		//TODO:To remove
+		System.out.println("--- New User Elements : "+users);
 		
 		return user;
 	}

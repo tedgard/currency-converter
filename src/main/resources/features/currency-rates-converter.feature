@@ -11,9 +11,8 @@ Feature: Currency rates conversion
 		
 		Examples:
 			| baseCurrency	| targetCurrency	| amount	| historicalDate	| output	|
-			| USD			| EUR 	 			| 1			| 2016-09-30		| 0.89495	|
-			| EUR			| USD 	 			| 2			| 2016-09-30		| 2.23476	|
-			| USD			| EUR 	 			| 3			| 2016-09-30		| 2.68485	|
+			| USD			| EUR 	 			| 1			| 2016-09-30		| 0.89175	|
+			| USD			| EUR 	 			| 3			| 2016-09-30		| 2.67525	|
 		
 	Scenario: Base currency and target currency should not be the same
 		

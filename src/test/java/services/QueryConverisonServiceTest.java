@@ -44,5 +44,4 @@ public class QueryConverisonServiceTest {
 		assertThat(results.get(results.size()-1), Matchers.hasProperty("user", Matchers.equalTo(user)));
 	}
 	
-	
 }

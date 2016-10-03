@@ -26,6 +26,9 @@ public class QueryConversionServiceImpl implements QueryConversionService{
 	@Override
 	public void saveQuery(QueryConversion query){
 		queries.add(query);
+		
+		//TODO:To remove
+		System.out.println("--- New QueryConversion Elements : "+queries);
 	}
 
 	private void mockQueries(){

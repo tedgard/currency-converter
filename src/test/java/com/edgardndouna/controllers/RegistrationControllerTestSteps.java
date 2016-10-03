@@ -9,8 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.mockito.InjectMocks;
@@ -73,7 +72,7 @@ public class RegistrationControllerTestSteps {
 		
 		initializeMockForAllGiven(userInput.get(0));
 		
-		Mockito.when(userService.isReasonableDateOfBirth(Matchers.<Date>any())).thenReturn(true);
+		Mockito.when(userService.isReasonableDateOfBirth(LocalDate.parse(user.getDateOfBirth()))).thenReturn(true);
 		Mockito.when(userService.isValidEmailAddress(user.getEmail())).thenReturn(true);
 		Mockito.when(userService.isEmailAlreadyRegistered(user.getEmail())).thenReturn(false);
 		Mockito.when(userService.saveOrUpdate(Matchers.<User>any())).thenReturn(user);
@@ -106,7 +105,7 @@ public class RegistrationControllerTestSteps {
 		
 		initializeMockForAllGiven(userInput.get(0));
 		
-		Mockito.when(userService.isReasonableDateOfBirth(Matchers.<Date>any())).thenReturn(true);
+		Mockito.when(userService.isReasonableDateOfBirth(LocalDate.parse(user.getDateOfBirth()))).thenReturn(true);
 		Mockito.when(userService.isValidEmailAddress(user.getEmail())).thenReturn(false);
 		Mockito.when(userService.isEmailAlreadyRegistered(user.getEmail())).thenReturn(false);
 
@@ -127,7 +126,7 @@ public class RegistrationControllerTestSteps {
 		initializeMockForAllGiven(userInput.get(0));
 		
 		Mockito.when(userService.isEmailAlreadyRegistered(user.getEmail())).thenReturn(true);
-		Mockito.when(userService.isReasonableDateOfBirth(Matchers.<Date>any())).thenReturn(true);
+		Mockito.when(userService.isReasonableDateOfBirth(LocalDate.parse(user.getDateOfBirth()))).thenReturn(true);
 		Mockito.when(userService.isValidEmailAddress(user.getEmail())).thenReturn(true);
 	}
 
@@ -144,10 +143,8 @@ public class RegistrationControllerTestSteps {
 	public void i_have_chosen_to_register_with_a_date_of_birth_in_the_future(List<User> userInput) throws Throwable {
 		
 		initializeMockForAllGiven(userInput.get(0));
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Date dateOfBirth = formatter.parse(user.getDateOfBirth());
 		
-		Mockito.when(userService.isReasonableDateOfBirth(dateOfBirth)).thenReturn(false);
+		Mockito.when(userService.isReasonableDateOfBirth(LocalDate.parse(user.getDateOfBirth()))).thenReturn(false);
 		Mockito.when(userService.isValidEmailAddress(user.getEmail())).thenReturn(true);
 		Mockito.when(userService.isEmailAlreadyRegistered(user.getEmail())).thenReturn(false);
 	}

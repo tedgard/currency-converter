@@ -1,6 +1,6 @@
 package com.edgardndouna.services;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import domain.User;
 
@@ -16,6 +16,6 @@ public interface UserService {
 	
 	public boolean isValidEmailAddress(String email);
 	
-	public boolean isReasonableDateOfBirth(Date dateOrBirth);
+	public boolean isReasonableDateOfBirth(LocalDate dateOrBirth);
 
 }

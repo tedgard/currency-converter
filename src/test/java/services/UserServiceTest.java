@@ -2,8 +2,7 @@ package services;
 
 import static org.junit.Assert.assertThat;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -101,8 +100,7 @@ public class UserServiceTest {
 	@Test
 	public void shouldTellMeThatDateOfBirthIsNotReasonable(){
 		
-		Calendar calendar = new GregorianCalendar(2020,5,10);
-		boolean result = userService.isReasonableDateOfBirth(calendar.getTime());
+		boolean result = userService.isReasonableDateOfBirth(LocalDate.parse("2020-05-10"));
 		
 		assertThat(result, Matchers.equalTo(false));
 	}
@@ -110,8 +108,7 @@ public class UserServiceTest {
 	@Test
 	public void shouldTellMeThatDateOfBirthIsReasonable(){
 		
-		Calendar calendar = new GregorianCalendar(2010,5,10);
-		boolean result = userService.isReasonableDateOfBirth(calendar.getTime());
+		boolean result = userService.isReasonableDateOfBirth(LocalDate.parse("1987-03-02"));
 		
 		assertThat(result, Matchers.equalTo(true));
 	}
