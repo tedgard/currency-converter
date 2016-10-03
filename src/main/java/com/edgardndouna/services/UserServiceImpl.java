@@ -19,18 +19,42 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public User authenticateUser(String login, String password) {
-		return users.get(0);
+	public User authenticateUser(String email, String password) {
+		User user = null;
+		
+		try {
+			user = users.stream().filter(u -> {
+						if(u.getEmail().equals(email) && u.getPassword().equals(password))
+							return true;
+						return false;
+					}).findAny().get();
+		} catch (Exception e) { }
+		
+		return user; 
 	}
 	
 	@Override
 	public User getUserById(int id){
-		return users.stream().filter(item -> item.getId() == id).findFirst().get();
+		User user = null;
+		try {
+			user = users.stream().filter(item -> item.getId() == id).findFirst().get();
+		} catch (Exception e) { }
+		
+		return user;
 	}
 	
 	@Override
 	public boolean isEmailAlreadyRegistered(String email) {
-		return (users.stream().filter(item -> item.getEmail().equals(email)).findFirst().get() == null);
+		boolean result = true;
+		
+		try {
+			User user = (users.stream().filter(item -> item.getEmail().equals(email)).findFirst().get());
+			if(user != null) result = true;
+		} catch (Exception e) { 
+			result = false;
+		}
+		
+		return result; 
 	}
 	
 	@Override
@@ -70,7 +94,6 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		users.add(user);
-		System.out.println("--- New user lists : "+users);
 		
 		return user;
 	}
@@ -78,6 +101,8 @@ public class UserServiceImpl implements UserService {
 	
 	public void loadUsers(){
 		users = new ArrayList<>();
+		users.add(new User(1, "John Doe", "john.doe@example.com", "test1234", "1987-01-09", "45 Dora St", "80000", "Amiens", "France"));
+		users.add(new User(2, "Mary Smith", "mary.smith@example.com", "test4321", "1988-09-01", "98 Jefferson St", "80000", "Amiens", "France"));
 	}
 
 }

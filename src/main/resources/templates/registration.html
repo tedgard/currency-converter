@@ -5,6 +5,8 @@
 	<title>Currency Converter | Registration</title>
 	<link href="https://cdn.jsdelivr.net/bootstrap/3.3.7/js/bootstrap.min.js" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
 	<script src="https://cdn.jsdelivr.net/jquery/2.2.4/jquery.min.js" th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
+	<script src="/webjars/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.js"></script>
+	<link href="/webjars/bootstrap-datepicker/1.6.1/css/bootstrap-datepicker.css" rel="stylesheet" media="screen"/>
 	<link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" media="screen"/>
 	<link href="../static/css/registration.css" th:href="@{/css/registration.css}" rel="stylesheet" media="screen"/>
 </head>
@@ -17,7 +19,7 @@
 	  <div th:if="${success != null}"> <div class="alert alert-success" role="alert" th:text="${success}"></div></div>
 	  <div th:if="${failed != null}"> <div class="alert alert-danger" role="alert" th:text="${failed}"></div></div>
 	  
-      <form class="form-horizontal" role="form" th:object="${user}" method="post" th:action="@{/saveUser}">
+      <form class="form-horizontal" role="form" th:object="${user}" method="post" th:action="@{/registerUser}">
      	  <h2>Registration Form</h2>     
           <div class="form-group">
               <label for="fullName" class="col-sm-3 control-label">Full Name</label>
@@ -41,7 +43,7 @@
           <div class="form-group">
               <label for="dateOfBirth" class="col-sm-3 control-label">Date of Birth</label>
               <div class="col-sm-9">
-                  <input type="date" id="dateOfBirth" th:field="*{dateOfBirth}" class="form-control"/>
+                  <input type="date" id="dateOfBirth" th:field="*{dateOfBirth}" class="form-control" readonly="readonly"/>
               </div>
           </div>
           
@@ -90,6 +92,14 @@
       </form> <!-- /form -->
    
   </div> <!-- ./container -->
+  
+  <script>
+  $(function(){
+	  $('#dateOfBirth').datepicker({
+		    format: "yyyy-mm-dd"
+	  }); 
+  });
+  </script>
   
 </body>
 </html>

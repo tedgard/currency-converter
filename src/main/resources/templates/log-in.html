@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+	<meta charset="UTF-8" />
+	<title>Currency Converter | Login</title>
+	<link href="https://cdn.jsdelivr.net/bootstrap/3.3.7/js/bootstrap.min.js" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+	<script src="https://cdn.jsdelivr.net/jquery/2.2.4/jquery.min.js" th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
+	<link href="../static/css/login.css" th:href="@{/css/login.css}" rel="stylesheet" media="screen"/>
+</head>
+
+<body>
+
+<div class="container">
+
+	  <br/>
+	  <div th:if="${success != null}"> <div class="alert alert-success" role="alert" th:text="${success}"></div></div>
+	  <div th:if="${failed != null}"> <div class="alert alert-danger" role="alert" th:text="${failed}"></div></div>
+	  
+      <div class="wrapper">
+    	<form class="form-signin" role="form" method="post" th:action="@{/authenticateUser}">       
+      		<h2 class="form-signin-heading">Please login</h2>
+      		<input type="text" class="form-control" th:value="${email}" name="email" placeholder="Email Address" required="required" autofocus="autofocus" />
+      		<input type="password" class="form-control" th:value="${password}"  name="password" placeholder="Password" required="required"/>      
+      		<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>   
+    	</form>
+	  </div>
+   
+</div> <!-- ./container -->
+
+  
+</body>
+</html>

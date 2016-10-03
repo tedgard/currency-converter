@@ -5,21 +5,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.edgardndouna.services.QueryHistoryService;
+import com.edgardndouna.services.QueryConversionService;
 
 @Controller
 public class HomeController {
 
-	private QueryHistoryService queryHistoryService;
+	private QueryConversionService queryConversionService;
 	
 	@Autowired
-	public void setQueryHistoryService(QueryHistoryService queryHistoryService) {
-		this.queryHistoryService = queryHistoryService;
+	public void setQueryConversionService(QueryConversionService queryConversionService) {
+		this.queryConversionService = queryConversionService;
 	}
 	
 	@RequestMapping("/home")
 	public String home(Model model){
-		model.addAttribute("lastTenQueries",queryHistoryService.loadLastTenQueryHistory(1));
+		model.addAttribute("lastTenQueries",queryConversionService.loadLastTenQueriesPerformedByUser(1));
 		return "home";
 	}
 	

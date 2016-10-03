@@ -1,8 +1,7 @@
 package com.edgardndouna.controllers;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
+import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -10,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.util.Arrays;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -25,8 +24,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.edgardndouna.services.UserService;
 
-import cucumber.api.DataTable;
-import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -36,51 +33,56 @@ import domain.User;
 public class RegistrationControllerTestSteps {
 
 	
+	private static final String REGISTER_PAGE = "registration";
+
 	private MockMvc mockMvc;
 	
-	@Mock //Mocking objects
+	@Mock //Mocking object
 	private UserService userService;
 	
 	@InjectMocks //sets up controller and injects mock objects into it
 	private RegistrationController registrationController;
 	
 	private User user;
-	private List<User> users;
 	
-	//For testing the result of the controller
-	ResultActions resultSubmission;
+	//For testing the result of the controller in all "Then" methods
+	private ResultActions resultSubmission;
 	
 	@Before
 	public void setup(){
 		registrationController = new RegistrationController();
 		mockMvc = MockMvcBuilders.standaloneSetup(registrationController).build();
-		users = createStubUsers();
+	}
+	
+	//Preparing the mockMvc for "When" methods
+	public void initializeMockForAllGiven(User u) throws Throwable{
+		MockitoAnnotations.initMocks(this);
+		
+		mockMvc.perform(get("/register"))
+    		.andExpect(status().isOk())
+    		.andExpect(view().name("registration"))
+    		.andExpect(model().attribute("user", instanceOf(User.class)));
+		
+		verifyZeroInteractions(userService);
+    	
+    	user = u;
 	}
 	
 	@Given("^I have chosen to register with valid input:$")
 	public void i_have_chosen_to_register_with_valid_input(List<User> userInput) throws Throwable {
 		
-		MockitoAnnotations.initMocks(this);
-		mockMvc.perform(get("/register"))
-    	.andExpect(status().isOk())
-    	.andExpect(view().name("registration"))
-    	.andExpect(model().attribute("user", instanceOf(User.class)));
+		initializeMockForAllGiven(userInput.get(0));
 		
-    	verifyZeroInteractions(userService);
-    	
-		user = userInput.get(0);
+		Mockito.when(userService.isReasonableDateOfBirth(Matchers.<Date>any())).thenReturn(true);
+		Mockito.when(userService.isValidEmailAddress(user.getEmail())).thenReturn(true);
+		Mockito.when(userService.isEmailAlreadyRegistered(user.getEmail())).thenReturn(false);
+		Mockito.when(userService.saveOrUpdate(Matchers.<User>any())).thenReturn(user);
 	}
 
 	@When("^I submit the form$")
 	public void i_submit_the_form() throws Throwable {
-		
-		MockitoAnnotations.initMocks(this);
-		Mockito.when(userService.saveOrUpdate(Matchers.<User>any())).thenReturn(user);
-		Mockito.when(userService.isReasonableDateOfBirth(Matchers.<Date>any())).thenReturn(true);
-		Mockito.when(userService.isValidEmailAddress(Matchers.<String>any())).thenReturn(true);
-		Mockito.when(userService.isEmailAlreadyRegistered(Matchers.<String>any())).thenReturn(false);
-		
-		resultSubmission = mockMvc.perform(post("/saveUser")
+	
+		resultSubmission = mockMvc.perform(post("/registerUser")
 				.param("fullName", user.getFullName())
 				.param("email", user.getEmail())
 				.param("password", user.getPassword())
@@ -90,7 +92,6 @@ public class RegistrationControllerTestSteps {
 				.param("city", user.getCity())
 				.param("country", user.getCountry()));
 		
-		verify(userService, atLeastOnce());
 	}
 
 	@Then("^I should be redirected to the home page$")
@@ -101,55 +102,63 @@ public class RegistrationControllerTestSteps {
 	}
 
 	@Given("^I have chosen to register with an invalid email:$")
-	public void i_have_chosen_to_register_with_an_invalid_email(DataTable arg1) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    // For automatic transformation, change DataTable to one of
-	    // List<YourType>, List<List<E>>, List<Map<K,V>> or Map<K,V>.
-	    // E,K,V must be a scalar (String, Integer, Date, enum etc)
-	    throw new PendingException();
+	public void i_have_chosen_to_register_with_an_invalid_email(List<User> userInput) throws Throwable {
+		
+		initializeMockForAllGiven(userInput.get(0));
+		
+		Mockito.when(userService.isReasonableDateOfBirth(Matchers.<Date>any())).thenReturn(true);
+		Mockito.when(userService.isValidEmailAddress(user.getEmail())).thenReturn(false);
+		Mockito.when(userService.isEmailAlreadyRegistered(user.getEmail())).thenReturn(false);
+
 	}
 
 	@Then("^I should be told that the email is incorrect$")
 	public void i_should_be_told_that_the_email_is_incorrect() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		
+		resultSubmission
+			.andExpect(status().isOk())
+			.andExpect(view().name(REGISTER_PAGE))
+			.andExpect(model().attribute("failed", is("The email address "+user.getEmail()+" is not valid")));
 	}
 
 	@Given("^I have chosen to register email address that has already registered:$")
-	public void i_have_chosen_to_register_email_address_that_has_already_registered(DataTable arg1) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    // For automatic transformation, change DataTable to one of
-	    // List<YourType>, List<List<E>>, List<Map<K,V>> or Map<K,V>.
-	    // E,K,V must be a scalar (String, Integer, Date, enum etc)
-	    throw new PendingException();
+	public void i_have_chosen_to_register_email_address_that_has_already_registered(List<User> userInput) throws Throwable {
+		
+		initializeMockForAllGiven(userInput.get(0));
+		
+		Mockito.when(userService.isEmailAlreadyRegistered(user.getEmail())).thenReturn(true);
+		Mockito.when(userService.isReasonableDateOfBirth(Matchers.<Date>any())).thenReturn(true);
+		Mockito.when(userService.isValidEmailAddress(user.getEmail())).thenReturn(true);
 	}
 
 	@Then("^I should be told that the email already exists$")
 	public void i_should_be_told_that_the_email_already_exists() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	
+		resultSubmission
+			.andExpect(status().isOk())
+			.andExpect(view().name(REGISTER_PAGE))
+			.andExpect(model().attribute("failed", is("The email address "+user.getEmail()+" already exists")));
 	}
 
 	@Given("^I have chosen to register with a date of birth in the future:$")
-	public void i_have_chosen_to_register_with_a_date_of_birth_in_the_future(DataTable arg1) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    // For automatic transformation, change DataTable to one of
-	    // List<YourType>, List<List<E>>, List<Map<K,V>> or Map<K,V>.
-	    // E,K,V must be a scalar (String, Integer, Date, enum etc)
-	    throw new PendingException();
+	public void i_have_chosen_to_register_with_a_date_of_birth_in_the_future(List<User> userInput) throws Throwable {
+		
+		initializeMockForAllGiven(userInput.get(0));
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date dateOfBirth = formatter.parse(user.getDateOfBirth());
+		
+		Mockito.when(userService.isReasonableDateOfBirth(dateOfBirth)).thenReturn(false);
+		Mockito.when(userService.isValidEmailAddress(user.getEmail())).thenReturn(true);
+		Mockito.when(userService.isEmailAlreadyRegistered(user.getEmail())).thenReturn(false);
 	}
 
-	@Then("^I should be told that the date of birth is incorrect$")
+	@Then("^I should be told that the date of birth should be in the past$")
 	public void i_should_be_told_that_the_date_of_birth_is_incorrect() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		
+		resultSubmission
+			.andExpect(status().isOk())
+			.andExpect(view().name(REGISTER_PAGE))
+			.andExpect(model().attribute("failed", is("The date of birth should be in the past")));
 	}
-	
-	
-	public List<User> createStubUsers(){
-		return Arrays.asList(
-				new User(1, "John Doe", "john.doe@example.com", "test1234", "1987-01-09", "45 Dora St", "80000", "Amiens", "France"),
-				new User(2, "Mary Smith", "mary.smith@example.com", "test4321", "1988-09-01", "98 Jefferson St", "80000", "Amiens", "France"));
-	}
-	
+		
 }

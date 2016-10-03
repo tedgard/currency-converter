@@ -6,7 +6,7 @@ import domain.User;
 
 public interface UserService {
 
-	public User authenticateUser(String login, String password);
+	public User authenticateUser(String email, String password);
 
 	public User saveOrUpdate(User user);
 	

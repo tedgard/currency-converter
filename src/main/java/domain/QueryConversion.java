@@ -2,7 +2,7 @@ package domain;
 
 import java.util.Date;
 
-public class QueryHistory {
+public class QueryConversion {
 
 	private Integer id;
 	private String baseCurrency;
@@ -13,11 +13,11 @@ public class QueryHistory {
 	private Date dateQuery;
 	private User user;
 	
-	public QueryHistory(){
+	public QueryConversion(){
 		this(0, "", "", 0.0, "", 0.0, null);
 	}
 	
-	public QueryHistory(Integer id, String baseCurrency, String targetCurrency, Double amount, String dateRate, Double result, User user) {
+	public QueryConversion(Integer id, String baseCurrency, String targetCurrency, Double amount, String dateRate, Double result, User user) {
 		super();
 		this.id = id;
 		this.baseCurrency = baseCurrency;
@@ -116,7 +116,7 @@ public class QueryHistory {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		QueryHistory other = (QueryHistory) obj;
+		QueryConversion other = (QueryConversion) obj;
 		if (amount == null) {
 			if (other.amount != null)
 				return false;
@@ -163,7 +163,7 @@ public class QueryHistory {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("QueryHistory [id=").append(id).append(", baseCurrency=").append(baseCurrency)
+		builder.append("QueryConversion [id=").append(id).append(", baseCurrency=").append(baseCurrency)
 				.append(", targetCurrency=").append(targetCurrency).append(", amount=").append(amount)
 				.append(", dateRate=").append(dateRate).append(", result=").append(result).append(", dateQuery=")
 				.append(dateQuery).append(", user=").append(user).append("]");

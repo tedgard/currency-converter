@@ -85,15 +85,24 @@
 			<artifactId>jquery</artifactId>
 			<version>2.2.4</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>bootstrap-datepicker</artifactId>
+		    <version>1.6.1</version>
+		</dependency>
+		<!-- // End // Webjars  -->
 
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-velocity</artifactId>
 		</dependency>
+		
 	</dependencies>
 
 	<build>
