@@ -1,35 +1,46 @@
 package com.edgardndouna.domain;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Version;
+
+@Entity
 public class QueryConversion {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	
+	@Version
+	private Integer version;
+	
 	private String baseCurrency;
 	private String targetCurrency;
 	private Double amount;
 	private String dateRate;
 	private Double result;
-	private LocalDateTime dateQuery;
+	private Date dateQuery;
+	
+	@ManyToOne
 	private User user;
 	
 	public QueryConversion(){
-		this(0, "", "", 0.0, "", 0.0, null);
+		this("", "", 0.0, "", 0.0, null);
 	}
 	
-	public QueryConversion(String baseCurrency, String targetCurrency, Double amount, String dateRate, Double result, User user){
-		this(0, baseCurrency, targetCurrency, amount, dateRate, result, user);
-	}
-	
-	public QueryConversion(Integer id, String baseCurrency, String targetCurrency, Double amount, String dateRate, Double result, User user) {
+	public QueryConversion(String baseCurrency, String targetCurrency, Double amount, String dateRate, Double result, User user) {
 		super();
-		this.id = id;
 		this.baseCurrency = baseCurrency;
 		this.targetCurrency = targetCurrency;
 		this.amount = amount;
 		this.result = result;
 		this.dateRate = dateRate;
-		this.dateQuery = LocalDateTime.now();
+		this.dateQuery = new Date();
 		this.user = user;
 	}
 
@@ -81,11 +92,11 @@ public class QueryConversion {
 		this.result = result;
 	}
 
-	public LocalDateTime getDateQuery() {
+	public Date getDateQuery() {
 		return dateQuery;
 	}
 
-	public void setDateQuery(LocalDateTime dateQuery) {
+	public void setDateQuery(Date dateQuery) {
 		this.dateQuery = dateQuery;
 	}
 
@@ -95,6 +106,14 @@ public class QueryConversion {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 
 	@Override
@@ -109,6 +128,7 @@ public class QueryConversion {
 		result = prime * result + ((this.result == null) ? 0 : this.result.hashCode());
 		result = prime * result + ((targetCurrency == null) ? 0 : targetCurrency.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		result = prime * result + ((version == null) ? 0 : version.hashCode());
 		return result;
 	}
 
@@ -161,16 +181,21 @@ public class QueryConversion {
 				return false;
 		} else if (!user.equals(other.user))
 			return false;
+		if (version == null) {
+			if (other.version != null)
+				return false;
+		} else if (!version.equals(other.version))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("QueryConversion [id=").append(id).append(", baseCurrency=").append(baseCurrency)
-				.append(", targetCurrency=").append(targetCurrency).append(", amount=").append(amount)
-				.append(", dateRate=").append(dateRate).append(", result=").append(result).append(", dateQuery=")
-				.append(dateQuery).append(", user=").append(user).append("]");
+		builder.append("QueryConversion [id=").append(id).append(", version=").append(version).append(", baseCurrency=")
+				.append(baseCurrency).append(", targetCurrency=").append(targetCurrency).append(", amount=")
+				.append(amount).append(", dateRate=").append(dateRate).append(", result=").append(result)
+				.append(", dateQuery=").append(dateQuery).append(", user=").append(user).append("]");
 		return builder.toString();
 	}
 	

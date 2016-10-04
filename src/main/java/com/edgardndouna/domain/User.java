@@ -1,8 +1,21 @@
 package com.edgardndouna.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Version;
+
+@Entity
 public class User {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	
+	@Version
+	private Integer version;
+	
 	private String fullName;
 	private String email;
 	private String password;
@@ -11,7 +24,6 @@ public class User {
 	private String zipCode;
 	private String city;
 	private String country;
-	
 		
 	public User() {
 		this(null, "", "", "", null, "", "", "", "");
@@ -38,6 +50,15 @@ public class User {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+	
+	public Integer getVersion() {
+		return version;
+	}
+	
 	public String getFullName() {
 		return fullName;
 	}
@@ -86,6 +107,8 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	
 
 	@Override
 	public int hashCode() {
@@ -99,6 +122,7 @@ public class User {
 		result = prime * result + ((fullName == null) ? 0 : fullName.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((version == null) ? 0 : version.hashCode());
 		result = prime * result + ((zipCode == null) ? 0 : zipCode.hashCode());
 		return result;
 	}
@@ -152,6 +176,11 @@ public class User {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+		if (version == null) {
+			if (other.version != null)
+				return false;
+		} else if (!version.equals(other.version))
+			return false;
 		if (zipCode == null) {
 			if (other.zipCode != null)
 				return false;
@@ -163,10 +192,10 @@ public class User {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("User [id=").append(id).append(", fullName=").append(fullName).append(", email=").append(email)
-				.append(", password=").append(password).append(", dateOfBirth=").append(dateOfBirth)
-				.append(", address=").append(address).append(", zipCode=").append(zipCode).append(", city=")
-				.append(city).append(", country=").append(country).append("]");
+		builder.append("User [id=").append(id).append(", version=").append(version).append(", fullName=")
+				.append(fullName).append(", email=").append(email).append(", password=").append(password)
+				.append(", dateOfBirth=").append(dateOfBirth).append(", address=").append(address).append(", zipCode=")
+				.append(zipCode).append(", city=").append(city).append(", country=").append(country).append("]");
 		return builder.toString();
 	}
 
