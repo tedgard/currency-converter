@@ -1,21 +1,29 @@
-package com.edgardndouna.services;
+package com.edgardndouna.services.impl;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-import org.apache.commons.validator.EmailValidator;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Service;
 
-import domain.User;
+import com.edgardndouna.domain.User;
+import com.edgardndouna.services.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 	private List<User> users;
+	private static List<String> listOfCountries;
 	
 	public UserServiceImpl() {
 		loadUsers();
+		initializeCountriesInStringList();
+	}
+	
+	public List<String> getListOfCountries(){
+		return listOfCountries;
 	}
 	
 	@Override
@@ -105,6 +113,19 @@ public class UserServiceImpl implements UserService {
 		users = new ArrayList<>();
 		users.add(new User(1, "John Doe", "john.doe@example.com", "test1234", "1987-01-09", "45 Dora St", "80000", "Amiens", "France"));
 		users.add(new User(2, "Mary Smith", "mary.smith@example.com", "test4321", "1988-09-01", "98 Jefferson St", "80000", "Amiens", "France"));
+	}
+	
+	
+	public void initializeCountriesInStringList(){
+		
+		if(listOfCountries == null){
+			String[] locales = Locale.getISOCountries();
+			listOfCountries = new ArrayList<>();
+			for (String countryCode : locales) {
+				Locale obj = new Locale("", countryCode);
+				listOfCountries.add(obj.getDisplayCountry());	
+			}
+		}
 	}
 
 }

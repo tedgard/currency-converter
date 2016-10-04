@@ -1,4 +1,4 @@
-package config;
+package com.edgardndouna.config;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -14,6 +14,9 @@ import org.springframework.stereotype.Component;
 public class ApiRateConfig {
 
 	private static List<String> listCurrencies = null;
+	
+	@Value("${api.name}")
+	private String name;
 	
 	@Value("${api.url.latest}")
 	private String urlLatestRate;
@@ -33,6 +36,13 @@ public class ApiRateConfig {
 	@Value("${supported.currencies}")
 	private String supportedCurrencies;
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getUrlLatestRate() {
 		return urlLatestRate;
@@ -93,11 +103,11 @@ public class ApiRateConfig {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("ApiRateConfig [urlLatestRate=").append(urlLatestRate).append(", urlHistoricalRate=")
-				.append(urlHistoricalRate).append(", urlHistoricalRateExt=").append(urlHistoricalRateExt)
-				.append(", appId=").append(appId).append(", appIdField=").append(appIdField)
-				.append(", supportedCurrencies=").append(supportedCurrencies).append(", getSupportedCurrencies()=")
-				.append(getSupportedCurrencies()).append("]");
+		builder.append("ApiRateConfig [name=").append(name).append(", urlLatestRate=").append(urlLatestRate)
+				.append(", urlHistoricalRate=").append(urlHistoricalRate).append(", urlHistoricalRateExt=")
+				.append(urlHistoricalRateExt).append(", appId=").append(appId).append(", appIdField=")
+				.append(appIdField).append(", supportedCurrencies=").append(supportedCurrencies)
+				.append(", getSupportedCurrencies()=").append(getSupportedCurrencies()).append("]");
 		return builder.toString();
 	}
 	

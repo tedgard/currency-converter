@@ -1,4 +1,4 @@
-package services;
+package com.edgardndouna.testservices;
 
 import static org.junit.Assert.assertThat;
 
@@ -8,11 +8,10 @@ import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.edgardndouna.domain.QueryConversion;
+import com.edgardndouna.domain.User;
 import com.edgardndouna.services.QueryConversionService;
-import com.edgardndouna.services.QueryConversionServiceImpl;
-
-import domain.QueryConversion;
-import domain.User;
+import com.edgardndouna.services.impl.QueryConversionServiceImpl;
 
 public class QueryConverisonServiceTest {
 

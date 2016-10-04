@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.edgardndouna</groupId>
-	<artifactId>currency-converter</artifactId>
+	<artifactId>currency-rate-converter</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -99,8 +99,9 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-velocity</artifactId>
+    		<groupId>commons-validator</groupId>
+    		<artifactId>commons-validator</artifactId>
+    		<version>1.5.1</version>
 		</dependency>
 		
 		<dependency>

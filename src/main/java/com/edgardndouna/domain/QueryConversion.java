@@ -1,6 +1,6 @@
-package domain;
+package com.edgardndouna.domain;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class QueryConversion {
 
@@ -10,11 +10,15 @@ public class QueryConversion {
 	private Double amount;
 	private String dateRate;
 	private Double result;
-	private Date dateQuery;
+	private LocalDateTime dateQuery;
 	private User user;
 	
 	public QueryConversion(){
 		this(0, "", "", 0.0, "", 0.0, null);
+	}
+	
+	public QueryConversion(String baseCurrency, String targetCurrency, Double amount, String dateRate, Double result, User user){
+		this(0, baseCurrency, targetCurrency, amount, dateRate, result, user);
 	}
 	
 	public QueryConversion(Integer id, String baseCurrency, String targetCurrency, Double amount, String dateRate, Double result, User user) {
@@ -25,7 +29,7 @@ public class QueryConversion {
 		this.amount = amount;
 		this.result = result;
 		this.dateRate = dateRate;
-		this.dateQuery = new Date();
+		this.dateQuery = LocalDateTime.now();
 		this.user = user;
 	}
 
@@ -77,11 +81,11 @@ public class QueryConversion {
 		this.result = result;
 	}
 
-	public Date getDateQuery() {
+	public LocalDateTime getDateQuery() {
 		return dateQuery;
 	}
 
-	public void setDateQuery(Date dateQuery) {
+	public void setDateQuery(LocalDateTime dateQuery) {
 		this.dateQuery = dateQuery;
 	}
 

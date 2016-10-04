@@ -1,4 +1,4 @@
-package domain;
+package com.edgardndouna.domain;
 
 public class User {
 

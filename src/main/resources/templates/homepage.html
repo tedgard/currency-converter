@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+	<meta charset="UTF-8" />
+	<title>Currency Converter | Homepage</title>
+	<link href="https://cdn.jsdelivr.net/bootstrap/3.3.7/js/bootstrap.min.js" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+	<script src="https://cdn.jsdelivr.net/jquery/2.2.4/jquery.min.js" th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
+	<script src="/webjars/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.js"></script>
+	<link href="/webjars/bootstrap-datepicker/1.6.1/css/bootstrap-datepicker.css" rel="stylesheet" media="screen"/>
+	<link th:href="@{/css/main.css}" rel="stylesheet" media="screen"/>
+</head>
+
+<body>
+
+<div class="container">
+	
+	<div class="row">
+        <div class="col-md-10">
+            <h2> Hi, <a th:text="${user.fullName}" th:href="@{/account}"></a></h2>
+        </div>
+        <div class="col-md-2 vcenter">
+         	<a class="btn btn-primary btn-block pull-right" th:href="@{/logout}">
+         		<span class="glyphicons glyphicons-log-out"></span> Logout
+         	</a>   
+        </div>
+    </div>
+	
+	<hr/>
+	<h2 th:text="${date}" ></h2>
+	
+	<hr/>
+	<form id="formConvert" class="form-inline" role="form" th:action="@{/convertRate}" method="post">
+		<div class="row">
+		
+			<div class="col-md-3">
+				<div class="form-group">
+					<label for="baseCurrency" class="control-label">Base Currency</label>		    		
+		    		<select id="baseCurrency" name="baseCurrency" class="form-control">
+                      <option th:each="base : ${listOfCurrencies}" th:value="${base}" th:text="${base}" th:selected="${baseCurrency} == ${base}"></option>
+                  	</select>
+		  		</div>
+		  	</div>
+	
+			<div class="col-md-3">
+				<div class="form-group">
+					<label for="targetCurrency" class="control-label">Target Currency</label>
+		    		<select id="targetCurrency" name="targetCurrency" class="form-control">
+                      <option th:each="target : ${listOfCurrencies}" th:value="${target}" th:text="${target}" th:selected="${targetCurrency} == ${target}"></option>
+                  	</select>
+				</div>
+			</div>
+			
+			<div class="col-md-2">
+				 <div class="form-group">
+			 		<label for="amount" class="control-label">Amount</label>
+				    <input type="text" class="form-control" id="amount" name="amount" th:value="${amount}" placeholder="Amount to convert"/>
+				</div>
+			</div>
+			
+			 <div class="col-md-2">
+			 	<div class="form-group">
+		 			<label for="dateRate" class="control-label">Date Historical Rate</label>
+			    	<input type="text" class="form-control" id="dateRate" th:value="${dateRate}"  name="dateRate" placeholder="Date rate" readonly="readonly"/>
+			    </div>
+			 </div>
+			 
+			 <div class="col-md-2">  
+			 	<br/>            	
+			 	<button type="submit" class="btn btn-primary btn-block">convert</button>
+	         </div>       
+	    </div>  
+	    
+	    <div class="row">
+	    	<div class="col-md-3">&nbsp;</div>
+	    	<div class="col-md-6">
+	    		<div th:if="${success != null}"> <br/> <div class="alert alert-success" role="alert" th:text="${success}"></div></div>
+	  			<div th:if="${failed != null}"> <br/><div class="alert alert-danger" role="alert" th:text="${failed}"></div></div>
+	    	</div>
+	  		<div class="col-md-3">&nbsp;</div>
+	    </div>   
+	    
+	</form>	
+	
+	<hr/>
+	<h2>Last 10 queries performed</h2>
+	<div th:if="${not #lists.isEmpty(lastTenQueries)}">
+		<table class="table table-stripped table-hover">
+			<tr>
+				<th>Id</th>
+				<th>Base</th>
+				<th>Target</th>
+				<th>Amount</th>
+				<th>Result</th>
+				<th>Date Rate</th>
+				<th>Date Query</th>
+			</tr>
+			
+			<tr th:each="queryHistory : ${lastTenQueries}">
+				<td th:text="${queryHistory.id}"></td>
+				<td th:text="${queryHistory.baseCurrency}"></td>
+				<td th:text="${queryHistory.targetCurrency}"></td>
+				<td th:text="${queryHistory.amount}"></td>
+				<td th:text="${queryHistory.result}"></td>
+				<td th:text="${queryHistory.dateRate}"></td>
+				<td th:text="${queryHistory.dateQuery}"></td>
+			</tr>
+		</table>
+	</div>
+	
+	<div id="footer"> <a th:href="@{/}">currency rate converter</a> </div>
+	
+</div>
+
+<script>
+  $(function(){
+	  $('#dateRate').datepicker({
+		    format: "yyyy-mm-dd"
+	  }); 
+  });
+  </script>
+
+</body>
+</html>

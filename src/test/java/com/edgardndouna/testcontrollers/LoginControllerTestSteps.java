@@ -1,4 +1,4 @@
-package com.edgardndouna.controllers;
+package com.edgardndouna.testcontrollers;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -17,13 +17,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.edgardndouna.controllers.LoginController;
+import com.edgardndouna.domain.User;
 import com.edgardndouna.services.UserService;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import domain.User;
 
 public class LoginControllerTestSteps {
 

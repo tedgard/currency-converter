@@ -1,12 +1,13 @@
-package com.edgardndouna.services;
+package com.edgardndouna.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import domain.QueryConversion;
-import domain.User;
+import com.edgardndouna.domain.QueryConversion;
+import com.edgardndouna.domain.User;
+import com.edgardndouna.services.QueryConversionService;
 
 @Service
 public class QueryConversionServiceImpl implements QueryConversionService{

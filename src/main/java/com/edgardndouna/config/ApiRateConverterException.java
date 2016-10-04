@@ -1,4 +1,4 @@
-package config;
+package com.edgardndouna.config;
 
 public class ApiRateConverterException extends Exception {
 	

@@ -1,8 +1,7 @@
-package com.edgardndouna.controllers;
+package com.edgardndouna.testcontrollers;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -21,13 +20,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.edgardndouna.controllers.RegistrationController;
+import com.edgardndouna.domain.User;
 import com.edgardndouna.services.UserService;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import domain.User;
 
 public class RegistrationControllerTestSteps {
 
@@ -61,8 +61,6 @@ public class RegistrationControllerTestSteps {
     		.andExpect(status().isOk())
     		.andExpect(view().name("registration"))
     		.andExpect(model().attribute("user", instanceOf(User.class)));
-		
-		verifyZeroInteractions(userService);
     	
     	user = u;
 	}

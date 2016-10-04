@@ -1,4 +1,4 @@
-package com.edgardndouna.controllers;
+package com.edgardndouna.testcontrollers;
 
 import org.junit.runner.RunWith;
 
@@ -9,7 +9,7 @@ import cucumber.api.junit.Cucumber;
 @CucumberOptions(
 	monochrome = false,
 	dryRun = false,
-	features = "src/main/resources/features/currency-rates-converter.feature"
+	features = "src/main/resources/features/login.feature"
 )
-public class CurrencyRatesConverterControllerTest {
+public class LoginControllerTest {
 }

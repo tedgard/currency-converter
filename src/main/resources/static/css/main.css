@@ -1,1 +1,45 @@
 @CHARSET "UTF-8";
+
+.accountTable{
+	max-width:50em;
+	margin: 0 auto;
+}
+
+.accountTable a{
+	width:7em;
+}
+
+.welcome{
+	max-width:35em;
+	margin: 0 auto;
+}
+
+.welcome img{
+	margin-bottom:.2em;
+}
+
+.welcome a{
+	width:8em;
+	display: inline-block;
+    vertical-align: top;
+}
+
+.welcome div a:first-child{
+	margin-top:0.4em;
+}
+
+
+#formConvert select{
+	width:15em;
+}
+
+.vcenter {
+   margin-top:1.2em;
+}
+
+#footer{
+	font-size:.8em;
+	margin: 0 auto;
+	max-width:20em;
+	margin-bottom:2em;
+}

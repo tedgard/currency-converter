@@ -2,7 +2,7 @@ package com.edgardndouna.services;
 
 import java.util.List;
 
-import domain.QueryConversion;
+import com.edgardndouna.domain.QueryConversion;
 
 public interface QueryConversionService {
 

@@ -1,17 +1,17 @@
-package services;
+package com.edgardndouna.testservices;
 
 import static org.junit.Assert.assertThat;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.edgardndouna.domain.User;
 import com.edgardndouna.services.UserService;
-import com.edgardndouna.services.UserServiceImpl;
-
-import domain.User;
+import com.edgardndouna.services.impl.UserServiceImpl;
 
 public class UserServiceTest {
 
@@ -111,6 +111,16 @@ public class UserServiceTest {
 		boolean result = userService.isReasonableDateOfBirth(LocalDate.parse("1987-03-02"));
 		
 		assertThat(result, Matchers.equalTo(true));
+	}
+	
+	@Test
+	public void shouldReturnAlistOfCountries(){
+		
+		List<String> result = userService.getListOfCountries();
+		
+		assertThat(result.size(), Matchers.greaterThan(1));
+		assertThat(result, Matchers.hasItem("France"));
+		assertThat(result, Matchers.hasItem("Congo"));
 	}
 	
 	

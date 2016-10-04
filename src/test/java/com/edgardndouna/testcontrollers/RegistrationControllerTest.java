@@ -1,4 +1,4 @@
-package com.edgardndouna.controllers;
+package com.edgardndouna.testcontrollers;
 
 import org.junit.runner.RunWith;
 
