@@ -138,6 +138,10 @@ public class UserServiceTest {
 		boolean result09 = userService.isValidEmailAddress("john.doe@example.");
 		boolean result10 = userService.isValidEmailAddress("john.doe@example..com");
 		boolean result11 = userService.isValidEmailAddress("john.doe@111.222.333.44444");
+		boolean result12 = userService.isValidEmailAddress("john.doe@email.web");
+		boolean result13 = userService.isValidEmailAddress("john.doeexample.com (John Doe)");
+		boolean result14 = userService.isValidEmailAddress("@$#%^@&$@example.com");
+		boolean result15 = userService.isValidEmailAddress("@$#%^@&$@#.com");
 		
 		assertThat(result01, Matchers.equalTo(false));
 		assertThat(result02, Matchers.equalTo(false));
@@ -150,6 +154,11 @@ public class UserServiceTest {
 		assertThat(result09, Matchers.equalTo(false));
 		assertThat(result10, Matchers.equalTo(false));
 		assertThat(result11, Matchers.equalTo(false));
+		assertThat(result12, Matchers.equalTo(false));
+		assertThat(result13, Matchers.equalTo(false));
+		assertThat(result14, Matchers.equalTo(false));
+		assertThat(result15, Matchers.equalTo(false));
+		
 	}
 	
 	@Test

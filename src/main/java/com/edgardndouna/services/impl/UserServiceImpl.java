@@ -8,14 +8,14 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import com.edgardndouna.domain.User;
-import com.edgardndouna.domain.util.ToolBox;
 import com.edgardndouna.services.UserService;
+import com.edgardndouna.util.ToolBox;
 
 @Service
-@Profile("dev")
+@Profile("list")
 public class UserServiceImpl implements UserService {
 
-	private List<User> users;
+	private static List<User> users;
 	
 	public UserServiceImpl() {
 		loadUsers();
@@ -91,9 +91,6 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		users.add(user);
-		
-		//TODO:To remove
-		System.out.println("--- New User Elements : "+users);
 		
 		return user;
 	}

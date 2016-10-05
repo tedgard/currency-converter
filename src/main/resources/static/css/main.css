@@ -37,9 +37,25 @@
    margin-top:1.2em;
 }
 
-#footer{
+#footer {
 	font-size:.8em;
 	margin: 0 auto;
 	max-width:20em;
+	margin-top:3em;
 	margin-bottom:2em;
+}
+
+.backtomain-register {
+	max-width: 530px;
+}
+
+.backtomain-login {
+	max-width: 380px;
+}
+
+.backtomain-register, 
+.backtomain-login{
+	font-size:.8em;
+	padding: 1px 3px 45px;
+	margin: 0 auto;
 }

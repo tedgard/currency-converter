@@ -10,7 +10,7 @@ Feature: Registration
 		
 		Given I have chosen to register with valid input:
 		| fullName | email				| password	| dateOfBirth | address 		| zipCode	| city 		| country |
-		| Edgard   | edgard@ndouna.com  | test1234	| 1987-09-01  | 827 London St	| 80000		| Amiens	| France  |
+		| Edgard   | edgard@example.com | test1234	| 1987-09-01  | 827 London St	| 80000		| Amiens	| France  |
 		When I submit the form 
 		Then I should be redirected to the home page
 		

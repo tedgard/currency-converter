@@ -13,11 +13,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import com.edgardndouna.domain.User;
-import com.edgardndouna.domain.util.ToolBox;
 import com.edgardndouna.services.UserService;
+import com.edgardndouna.util.ToolBox;
 
 @Service
-@Profile("prod")
+@Profile("jpadao")
 public class UserServiceJpaDaoImpl implements UserService {
 
 	Logger logger = Logger.getLogger(this.getClass().getName());

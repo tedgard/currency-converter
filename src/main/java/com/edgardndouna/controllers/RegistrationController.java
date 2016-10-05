@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.edgardndouna.domain.User;
 import com.edgardndouna.services.UserService;
+import com.edgardndouna.util.ToolBox;
 
 @Controller
 public class RegistrationController {
@@ -81,7 +82,12 @@ public class RegistrationController {
 			return REGISTER_PAGE;
 		}
 		
-		userService.saveOrUpdate(user);
+		//Saving the user
+		user = userService.saveOrUpdate(user);
+		
+		//Using spring security for handling user context authentication
+        ToolBox.authenticatedUser(user);
+		
 		return "redirect:/home";
 	}
 }

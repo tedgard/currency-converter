@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.edgardndouna.config.ApiRateConverterException;
 import com.edgardndouna.domain.QueryConversion;
+import com.edgardndouna.domain.User;
 import com.edgardndouna.services.ApiRateService;
 import com.edgardndouna.services.QueryConversionService;
 import com.edgardndouna.services.UserService;
@@ -40,25 +42,30 @@ public class CurrencyRateConverterController {
 	}
 	
 	@RequestMapping("/home")
-	public String home(Model model){
-		logger.info("Landing on homepage | user");
-		model.addAttribute("user", userService.getUserById(1));
+	public String home(Authentication auth, Model model){
+		User user = (User) auth.getPrincipal();
+		logger.info("Landing on homepage | "+user);
+		
+		model.addAttribute("user", user);
 		
 		model.addAttribute("date", LocalDate.now());
 		model.addAttribute("dateRate", LocalDate.now());
 		model.addAttribute("baseCurrency", "");
 		model.addAttribute("targetCurrency", "");
 		model.addAttribute("amount", "");
-		model.addAttribute("lastTenQueries",queryConversionService.loadLastTenQueriesPerformedByUser(1));
+		model.addAttribute("lastTenQueries",queryConversionService.loadLastTenQueriesPerformedByUser(user.getId()));
 		model.addAttribute("listOfCurrencies", apiRateService.getSupportedCurrencies());
+		
 		return "homepage";
 	}
 	
 	@RequestMapping("/convertRate")
 	public String convertRate(@RequestParam String baseCurrency, @RequestParam String targetCurrency,
-			@RequestParam String amount, @RequestParam String dateRate, Model model){
+			@RequestParam String amount, @RequestParam String dateRate, Model model, Authentication auth){
 		
-		logger.info("Converting rate | baseCurrency="+baseCurrency+", targetCurrency="+targetCurrency+", amount="+amount+", dateRate="+dateRate);;
+		User user = (User) auth.getPrincipal();
+		
+		logger.info("Converting rate by user <"+user.getEmail()+"> | baseCurrency="+baseCurrency+", targetCurrency="+targetCurrency+", amount="+amount+", dateRate="+dateRate);
 		
 		model.addAttribute("user", userService.getUserById(1));
 		
@@ -77,7 +84,7 @@ public class CurrencyRateConverterController {
 			result = apiRateService.convertRateFromTo(baseCurrency, targetCurrency, dateRate, amount);
 			
 			//Saving query for history
-			queryConversionService.saveQuery(new QueryConversion(baseCurrency, targetCurrency, Double.parseDouble(amount), dateRate, result, userService.getUserById(1)));
+			queryConversionService.saveQuery(new QueryConversion(baseCurrency, targetCurrency, Double.parseDouble(amount), dateRate, result, user));
 			
 			model.addAttribute("success", "On "+dateRate+", "+amount+" "+baseCurrency+" = "+result+" "+targetCurrency);
 			
@@ -85,10 +92,8 @@ public class CurrencyRateConverterController {
 			model.addAttribute("failed", e.getMessage());
 		}
 
-		model.addAttribute("lastTenQueries",queryConversionService.loadLastTenQueriesPerformedByUser(1));
+		model.addAttribute("lastTenQueries",queryConversionService.loadLastTenQueriesPerformedByUser(user.getId()));
 		
 		return "homepage";
 	}
-	
-	
 }

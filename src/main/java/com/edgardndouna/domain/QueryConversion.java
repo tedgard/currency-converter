@@ -1,5 +1,6 @@
 package com.edgardndouna.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -92,8 +93,14 @@ public class QueryConversion {
 		this.result = result;
 	}
 
-	public Date getDateQuery() {
-		return dateQuery;
+	public String getDateQuery() {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		String dateToPrint = ""; 
+		try { dateToPrint = formatter.format(dateQuery);
+		} catch (Exception e) { dateToPrint = dateQuery.toString();} 
+		
+		return dateToPrint;
 	}
 
 	public void setDateQuery(Date dateQuery) {

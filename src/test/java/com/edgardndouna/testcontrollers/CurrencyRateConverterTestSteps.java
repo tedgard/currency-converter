@@ -12,19 +12,24 @@ import java.util.List;
 import java.util.Map;
 
 import org.hamcrest.Matchers;
+import org.junit.After;
 import org.mockito.InjectMocks;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.edgardndouna.config.ApiRateConfig;
 import com.edgardndouna.controllers.CurrencyRateConverterController;
+import com.edgardndouna.domain.User;
 import com.edgardndouna.services.ApiRateService;
 import com.edgardndouna.services.QueryConversionService;
 import com.edgardndouna.services.UserService;
 import com.edgardndouna.services.impl.ApiRateServiceImpl;
 import com.edgardndouna.services.impl.QueryConversionServiceImpl;
 import com.edgardndouna.services.impl.UserServiceImpl;
+import com.edgardndouna.util.ToolBox;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -53,8 +58,12 @@ public class CurrencyRateConverterTestSteps {
 	//For testing the result of the controller in all "Then" methods
 	private ResultActions resultSubmission;
 	
+	//For the authenticated user
+	Authentication auth;
+	
 	@Before
 	public void setup(){
+	   
 		currencyRateConverterController = new CurrencyRateConverterController();
 		
 		apiRateConfig = new ApiRateConfig();
@@ -75,6 +84,11 @@ public class CurrencyRateConverterTestSteps {
 		currencyRateConverterController.setUserService(userService);
 		
 		mockMvc = MockMvcBuilders.standaloneSetup(currencyRateConverterController).build();
+		
+		
+		//Setting up an authenticated user
+		ToolBox.authenticatedUser(new User(1, "john", "john.doe", "test", "1987-01-09", "123 Dora St", "80000", "Amiens", "France"));
+		auth = SecurityContextHolder.getContext().getAuthentication();
 	}
 	
 	
@@ -86,7 +100,7 @@ public class CurrencyRateConverterTestSteps {
 	    this.amount = a;
 	    this.historicalDate = hDate;
 	    
-	    mockMvc.perform(get("/home"))
+	    mockMvc.perform(get("/home").principal(auth))
 			.andExpect(status().isOk())
 			.andExpect(view().name(HOME_PAGE));
 	}
@@ -94,7 +108,7 @@ public class CurrencyRateConverterTestSteps {
 	@When("^the conversion function is run$")
 	public void the_conversion_function_is_run() throws Throwable {
 	    
-		resultSubmission = mockMvc.perform(post("/convertRate")
+		resultSubmission = mockMvc.perform(post("/convertRate").principal(auth)
 				.param("baseCurrency", baseCurrency)
 				.param("targetCurrency", targetCurrency)
 				.param("amount", amount)
@@ -211,4 +225,10 @@ public class CurrencyRateConverterTestSteps {
 	    this.amount = inputs.get(0).get("amount");
 	    this.historicalDate = inputs.get(0).get("historicalDate").toString();
 	}
+	
+	@After
+	private void logoutStub() {
+	    SecurityContextHolder.clearContext();
+	}
+
 }

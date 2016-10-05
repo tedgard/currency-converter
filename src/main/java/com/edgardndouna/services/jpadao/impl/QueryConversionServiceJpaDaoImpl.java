@@ -14,7 +14,7 @@ import com.edgardndouna.domain.QueryConversion;
 import com.edgardndouna.services.QueryConversionService;
 
 @Service
-@Profile("prod")
+@Profile("jpadao")
 public class QueryConversionServiceJpaDaoImpl implements QueryConversionService{
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());

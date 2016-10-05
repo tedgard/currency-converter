@@ -1,4 +1,4 @@
-package com.edgardndouna.domain.util;
+package com.edgardndouna.util;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -6,6 +6,13 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.validator.routines.EmailValidator;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.edgardndouna.domain.User;
 
 public class ToolBox {
 
@@ -57,4 +64,22 @@ public class ToolBox {
 		
 		return countries;
 	}
+	
+	
+	/**
+	 * Setting the context for the authenticated user
+	 * @param password
+	 * @param user
+	 */
+	public static void authenticatedUser(User user) {
+		
+		if(SecurityContextHolder.getContext().getAuthentication() != null)
+			SecurityContextHolder.clearContext();
+			
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), authorities);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+	}
+	
 }

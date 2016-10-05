@@ -1,6 +1,7 @@
 package com.edgardndouna.services.impl;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,8 +52,9 @@ public class ApiRateServiceImpl implements ApiRateService {
 		}
 		
 		//Aborting if dateRate format is invalid
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		try {
-			LocalDate.parse(dateRate);
+			LocalDate.parse(dateRate, formatter);
 		} catch (Exception e1) {
 			throw new ApiRateConverterException("Date rate format provided is invalid");
 		}

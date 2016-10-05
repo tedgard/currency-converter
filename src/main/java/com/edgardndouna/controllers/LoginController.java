@@ -1,7 +1,13 @@
 package com.edgardndouna.controllers;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.edgardndouna.domain.User;
 import com.edgardndouna.services.UserService;
+import com.edgardndouna.util.ToolBox;
 
 @Controller
 public class LoginController {
@@ -24,14 +31,19 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/login")
-	public String login(Model model){
+	public String login(Authentication auth, Model model){
+		
+		//If user already authenticated then redirect to home page
+		if(auth != null)
+			return "redirect:/home";
+			
 		model.addAttribute("email", "");
 		model.addAttribute("password", "");
 		return "log-in";
 	}
 	
 	@RequestMapping(value="/authenticateUser", method= RequestMethod.POST)
-	public String authenticateUser(@RequestParam String email, @RequestParam String password, Model model){
+	public String authenticateUser(@RequestParam String email, @RequestParam String password, Model model, HttpServletRequest request){
 		
 		logger.info("Authenticating user | email: "+email+ ", password: "+password);
 		
@@ -54,6 +66,19 @@ public class LoginController {
 			return "log-in";
 		}
 		
+        //Using spring security for handling user context authentication
+        ToolBox.authenticatedUser(user);
+        
 		return "redirect:/home";
 	}
+
+	@RequestMapping(value="/logout")
+    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){    
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/login?logout";
+    }
+	
 }
