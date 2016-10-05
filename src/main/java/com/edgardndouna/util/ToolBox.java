@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -60,6 +61,7 @@ public class ToolBox {
 				Locale obj = new Locale("", countryCode);
 				countries.add(obj.getDisplayCountry());	
 			}
+			countries.sort(String::compareTo);
 		}
 		
 		return countries;
