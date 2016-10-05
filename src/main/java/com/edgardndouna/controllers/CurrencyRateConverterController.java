@@ -79,7 +79,7 @@ public class CurrencyRateConverterController {
 			//Saving query for history
 			queryConversionService.saveQuery(new QueryConversion(baseCurrency, targetCurrency, Double.parseDouble(amount), dateRate, result, userService.getUserById(1)));
 			
-			model.addAttribute("success", "In "+dateRate+", "+amount+" "+baseCurrency+" = "+result+" "+targetCurrency);
+			model.addAttribute("success", "On "+dateRate+", "+amount+" "+baseCurrency+" = "+result+" "+targetCurrency);
 			
 		} catch (ApiRateConverterException e) {
 			model.addAttribute("failed", e.getMessage());
