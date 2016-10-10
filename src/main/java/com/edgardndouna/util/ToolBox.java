@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

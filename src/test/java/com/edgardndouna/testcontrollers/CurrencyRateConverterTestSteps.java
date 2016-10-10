@@ -25,10 +25,8 @@ import com.edgardndouna.controllers.CurrencyRateConverterController;
 import com.edgardndouna.domain.User;
 import com.edgardndouna.services.ApiRateService;
 import com.edgardndouna.services.QueryConversionService;
-import com.edgardndouna.services.UserService;
 import com.edgardndouna.services.impl.ApiRateServiceImpl;
 import com.edgardndouna.services.impl.QueryConversionServiceImpl;
-import com.edgardndouna.services.impl.UserServiceImpl;
 import com.edgardndouna.util.ToolBox;
 
 import cucumber.api.java.Before;
@@ -49,7 +47,6 @@ public class CurrencyRateConverterTestSteps {
 	private ApiRateService apiRateService; 
 	private ApiRateConfig apiRateConfig;
 	
-	private UserService userService;
 	private QueryConversionService queryConversionService;
 	
 	@InjectMocks //sets up controller and injects mock objects into it
@@ -76,12 +73,10 @@ public class CurrencyRateConverterTestSteps {
 		 	apiRateConfig.setSupportedCurrencies("EUR,EUR,USD,GBP,NZD,AUD,JPY,HUF,ANG,CNY,PHP,SEK");
 	 	
 		apiRateService  = new ApiRateServiceImpl(apiRateConfig);
-		userService 	= new UserServiceImpl();
 		queryConversionService = new QueryConversionServiceImpl();
 		
 		currencyRateConverterController.setApiRateService(apiRateService);
 		currencyRateConverterController.setQueryConversionService(queryConversionService);
-		currencyRateConverterController.setUserService(userService);
 		
 		mockMvc = MockMvcBuilders.standaloneSetup(currencyRateConverterController).build();
 		

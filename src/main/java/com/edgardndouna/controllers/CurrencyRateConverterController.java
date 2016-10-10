@@ -15,7 +15,6 @@ import com.edgardndouna.domain.QueryConversion;
 import com.edgardndouna.domain.User;
 import com.edgardndouna.services.ApiRateService;
 import com.edgardndouna.services.QueryConversionService;
-import com.edgardndouna.services.UserService;
 
 @Controller
 public class CurrencyRateConverterController {
@@ -23,17 +22,11 @@ public class CurrencyRateConverterController {
 	private Logger logger = Logger.getLogger(this.getClass().getName()); 
 	
 	private QueryConversionService queryConversionService;	
-	private UserService userService;
 	private ApiRateService apiRateService;
 	
 	@Autowired
 	public void setApiRateService(ApiRateService apiRateService) {
 		this.apiRateService = apiRateService;
-	}
-
-	@Autowired
-	public void setUserService(UserService userService) {
-		this.userService = userService;
 	}
 	
 	@Autowired
@@ -44,17 +37,10 @@ public class CurrencyRateConverterController {
 	@RequestMapping("/home")
 	public String home(Authentication auth, Model model){
 		User user = (User) auth.getPrincipal();
+		
 		logger.info("Landing on homepage | "+user);
 		
-		model.addAttribute("user", user);
-		
-		model.addAttribute("date", LocalDate.now());
-		model.addAttribute("dateRate", LocalDate.now());
-		model.addAttribute("baseCurrency", "");
-		model.addAttribute("targetCurrency", "");
-		model.addAttribute("amount", "");
-		model.addAttribute("lastTenQueries",queryConversionService.loadLastTenQueriesPerformedByUser(user.getId()));
-		model.addAttribute("listOfCurrencies", apiRateService.getSupportedCurrencies());
+		populateModelWithData("", "", "", LocalDate.now().toString(), model, user);
 		
 		return "homepage";
 	}
@@ -66,15 +52,6 @@ public class CurrencyRateConverterController {
 		User user = (User) auth.getPrincipal();
 		
 		logger.info("Converting rate by user <"+user.getEmail()+"> | baseCurrency="+baseCurrency+", targetCurrency="+targetCurrency+", amount="+amount+", dateRate="+dateRate);
-		
-		model.addAttribute("user", userService.getUserById(1));
-		
-		model.addAttribute("date", LocalDate.now());
-		model.addAttribute("dateRate", dateRate);
-		model.addAttribute("baseCurrency", baseCurrency);
-		model.addAttribute("targetCurrency", targetCurrency);
-		model.addAttribute("amount", amount);
-		model.addAttribute("listOfCurrencies", apiRateService.getSupportedCurrencies());
 		
 		//Sending the request to the Api Service
 		double result = 0;
@@ -91,9 +68,31 @@ public class CurrencyRateConverterController {
 		} catch (ApiRateConverterException e) {
 			model.addAttribute("failed", e.getMessage());
 		}
-
-		model.addAttribute("lastTenQueries",queryConversionService.loadLastTenQueriesPerformedByUser(user.getId()));
 		
+		populateModelWithData(baseCurrency, targetCurrency, amount, dateRate, model, user);
+
 		return "homepage";
+	}
+
+	/**
+	 * Populating data before returning to the view 
+	 * @param baseCurrency
+	 * @param targetCurrency
+	 * @param amount
+	 * @param dateRate
+	 * @param model
+	 * @param user
+	 */
+	private void populateModelWithData(String baseCurrency, String targetCurrency, String amount, String dateRate,
+			Model model, User user) {
+	
+		model.addAttribute("user", user);
+		model.addAttribute("date", LocalDate.now());
+		model.addAttribute("dateRate", dateRate);
+		model.addAttribute("baseCurrency", baseCurrency);
+		model.addAttribute("targetCurrency", targetCurrency);
+		model.addAttribute("amount", amount);
+		model.addAttribute("listOfCurrencies", apiRateService.getSupportedCurrencies());
+		model.addAttribute("lastTenQueries",queryConversionService.loadLastTenQueriesPerformedByUser(user.getId()));
 	}
 }
