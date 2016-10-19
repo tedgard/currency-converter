@@ -23,7 +23,7 @@ Linux, Mac OSX, etc.
 ./mvnw clean install 
 ```
 
-Once everything has run to completion, the application ben executed :
+Once everything has run to completion, the application can be executed :
 ```
 java -jar target/currency-rate-converter-1.0-SNAPSHOT.jar 
 ```
