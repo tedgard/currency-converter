@@ -1,4 +1,4 @@
-# Currency Converter
+# Currency Converter v2.0
 Convert any money value from one currency to another at the latest/historical rates using an API endpoint.
 
 ## Technology and requirement
