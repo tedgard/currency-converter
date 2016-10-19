@@ -19,7 +19,7 @@ public class ToolBox {
 	private static List<String> countries;
 	
 	/**
-	 * Check the format of email using apache tomcat according to RFC 822 standards.
+	 * Check the format of email according to RFC 822 standards, using Apache Commons Validator
 	 * @param email
 	 * @return boolean
 	 */
